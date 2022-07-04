@@ -26,7 +26,7 @@ class Request
         std::string _path;
         std::string _version;
         std::vector<std::pair<std::string, std::string> > _headers;
-        std::vector<std::string> _body;
+        std::string _body;
         std::string _raw_request;
         bool is_body_set;
         

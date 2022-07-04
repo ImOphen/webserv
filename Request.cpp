@@ -22,6 +22,7 @@ std::string remove_spaces_from_beginning(std::string &str) {
 void Request::init(std::string raw_request)
 {
     is_body_set = 0;
+    _body = "";
     _raw_request = raw_request;
 }
 
@@ -35,11 +36,11 @@ void Request::parse_first_line(std::string first_line)
 
 void Request::parse_body(std::stringstream &ss)
 {
-    is_body_set = 1;
     std::string line;
     while (std::getline(ss, line))
     {
-        _body.push_back(line);
+        is_body_set = 1;
+        _body += line + "\n";
     }
 }
 
@@ -52,10 +53,7 @@ void Request::parse_headers(std::stringstream &ss)
         if (ss.eof())
             break;
         if (line.find(":") == std::string::npos)
-        {
-            parse_body(ss);
             return;
-        }
         std::stringstream line_ss(line);
         std::string key;
         std::string value;
@@ -75,6 +73,7 @@ void Request::parse_request(std::string request_string)
     std::getline(ss, line);
     parse_first_line(line);
     parse_headers(ss);
+    parse_body(ss);
 }
 
 void Request::debug_print()
@@ -86,11 +85,8 @@ void Request::debug_print()
         std::cout << "\033[32mHEADERS |-> \033[34m" << _headers[i].first << "\033[0m:\033[35m" << _headers[i].second << "\033[0m" << std::endl;
     }
     if (is_body_set)
-        for (size_t i = 0; i < _body.size(); i++)
-        {
-            std::cout << "\033[31mBODY |-> \033[36m" << _body[i] << "\033[0m" << std::endl;
-        }
-    std::cout << "\033[32m" << "----------------------\033[0m" << std::endl;
+        std::cout << "\033[31mBODY |-> \033[36m" << _body << "\033[0m" << std::endl;
+    std::cout << "\033[33m" << "----------------------\033[0m" << std::endl;
 }
 
 Request::Request(std::string request_string)
