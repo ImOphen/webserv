@@ -36,6 +36,11 @@ class Response
 						content += line;
 					file.close();
 				}
+				else
+				{
+					_status_code = 403;
+					content = "Forbidden";
+				}
 			}
 			else
 			{
