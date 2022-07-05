@@ -38,22 +38,18 @@ void Request::parse_first_line(std::stringstream &ss)
 
 void Request::parse_body(std::stringstream &ss)
 {
-    std::string line;
-    while (std::getline(ss, line))
-    {
+
+    std::getline(ss, _body, '\0');
+    if (_body.length() > 0) {
         is_body_set = 1;
-        _body += line + "\n";
     }
 }
 
 void Request::parse_headers(std::stringstream &ss)
 {
     std::string line;
-    while(1)
+    while(std::getline(ss, line))
     {
-        std::getline(ss, line);
-        if (ss.eof())
-            break;
         if (line.find(":") == std::string::npos)
             return;
         std::stringstream line_ss(line);
