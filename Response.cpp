@@ -38,9 +38,7 @@ std::string Response::get_content_of_path(std::string path)
 	{
 		std::ifstream file(path);
 		std::string content;
-		std::string line;
-		while (std::getline(file, line))
-			content += line + "\n";
+		std::getline(file, content, '\0');
 		file.close();
 		return content;
 	}
