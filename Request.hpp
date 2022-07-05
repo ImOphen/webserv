@@ -32,7 +32,7 @@ class Request
         
     public:
         void init(std::string raw_request);
-        void parse_first_line(std::string first_line);
+        void parse_first_line(std::stringstream &ss);
         void parse_body(std::stringstream &ss);
         void parse_headers(std::stringstream &ss);
         void parse_request(std::string request_string);

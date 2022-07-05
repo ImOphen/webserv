@@ -26,9 +26,11 @@ void Request::init(std::string raw_request)
     _raw_request = raw_request;
 }
 
-void Request::parse_first_line(std::string first_line)
+void Request::parse_first_line(std::stringstream &ss)
 {
-    std::stringstream first_line_ss(first_line);
+    std::string line;
+    std::getline(ss, line);
+    std::stringstream first_line_ss(line);
     first_line_ss >> _method;
     first_line_ss >> _path;
     first_line_ss >> _version;
@@ -69,9 +71,7 @@ void Request::parse_headers(std::stringstream &ss)
 void Request::parse_request(std::string request_string)
 {
     std::stringstream ss(request_string);
-    std::string line;
-    std::getline(ss, line);
-    parse_first_line(line);
+    parse_first_line(ss);
     parse_headers(ss);
     parse_body(ss);
 }
