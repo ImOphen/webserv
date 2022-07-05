@@ -99,21 +99,27 @@ Request::Request(std::string request_string)
 std::string                                         Request::get_method(){
     return _method;
 }
+
 std::string                                         Request::get_path(){
     return _path;
 }
+
 std::string                                         Request::get_version(){
     return _version;
 }
+
 std::string                                         Request::get_body(){
     return _body;
 }
+
 std::string                                         Request::get_raw_request(){
     return _raw_request;
 }
+
 std::vector<std::pair<std::string, std::string> >   Request::get_headers(){
     return _headers;
 }
+
 bool                                                Request::is_body_setted(){
     return is_body_set;
 }

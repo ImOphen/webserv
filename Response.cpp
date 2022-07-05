@@ -31,9 +31,9 @@ void Response::set_status_code(std::string &path)
 std::string Response::get_content_of_path(std::string path)
 {
 	if (_status_code == 404)
-		return "404 Not found";
+		return "<h1>404 Not found</h1>";
 	else if (_status_code == 403)
-		return "403 Forbidden";
+		return "<h1>403 Forbidden</h1>";
 	else
 	{
 		std::ifstream file(path);
@@ -41,6 +41,7 @@ std::string Response::get_content_of_path(std::string path)
 		std::string line;
 		while (std::getline(file, line))
 			content += line + "\n";
+		file.close();
 		return content;
 	}
 }
