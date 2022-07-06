@@ -14,7 +14,7 @@
 #include "Request.hpp"
 #include "Response.hpp"
 
-Server::Server(Config &conf) {
+Server::Server(const Config &conf) {
 	int														count = 0;
 	int														socket;
 	std::map<int, std::vector<VirtualServer> >::iterator	it_vserver;
@@ -106,7 +106,7 @@ void	Server::start() {
 		int r = poll(this->_pollfds.data(), this->_pollfds.size(), 0);
 		if (r > 0) {
 			for (size_t i = 0; i < this->_pollfds.size(); i++) {
-				pollfd &current_poll = this->_pollfds.at(i);
+				struct pollfd &current_poll = this->_pollfds.at(i);
 				if (current_poll.revents == 0) {
 					continue;
 				} else if (current_poll.revents & POLLHUP) {
@@ -149,7 +149,7 @@ void	Server::accept_clients(const std::vector<int> &connections) {
 	}
 }
 
-void	Server::receive(struct pollfd &poll) {
+void	Server::receive(struct pollfd &poll) const {
 	int		rc;
 	char	buff[1000];
 
@@ -164,9 +164,10 @@ void	Server::receive(struct pollfd &poll) {
 		return ;
 	}
 	buff[rc] = '\0';
+	std::cout << "Data received" << std::endl;
 	Request req(buff);
 	req.debug_print();
 	Response res(req);
-	std::string s_res = *res;
-	send(poll.fd, s_res.c_str(), s_res.length() , 0);
+	std::string response = *res;
+	send(poll.fd, response.c_str(), response.length(), 0);
 }

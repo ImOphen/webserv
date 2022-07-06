@@ -18,7 +18,7 @@ class CGI
 {
     private:
         std::map<std::string, std::string>  _env;
-        Request                             &_request;
+        Request     const                   &_request;
         std::string const                   &_cgi_path;
         std::string const                   &_file;
         std::string                         _content;
