@@ -1,7 +1,7 @@
 #include "CGI.hpp"
 
 CGI::CGI(Request const &_req, std::string const &_file_path, std::string const &_fast_cgi_path) 
-    : _request((Request&)_req) , _cgi_path(_fast_cgi_path), _file(_file_path)
+    : _request(_req) , _cgi_path(_fast_cgi_path), _file(_file_path)
 {
     _content = "";
     _set_content();
